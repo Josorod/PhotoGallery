@@ -109,15 +109,12 @@ namespace WebApi.Controllers
 
 
 
-
         [HttpGet("admintest")]
         [Authorize(Policy = "RequireAdminRole")]
         [Route("api/photo/admintest")]
-        public int Test()
+        public string Test()
         {
-            var userIdString = User.FindFirstValue(ClaimTypes.NameIdentifier);
-            int UserId = int.Parse(userIdString);
-            return UserId;
+            return "Admin check passed";
         }
     }
 }
