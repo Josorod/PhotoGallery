@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Localization;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
@@ -8,7 +9,9 @@ using Microsoft.IdentityModel.Tokens;
 using System.Globalization;
 using System.Text;
 using WebApi.Data;
+using WebApi.Dtos;
 using WebApi.Interfaces;
+using WebApi.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -18,8 +21,11 @@ builder.Services.AddDbContext<DataContext>(options =>
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddControllers();
+builder.Services.AddAutoMapper(typeof(DtoProfile));
 // Register IUnitOfWork and its implementation
+builder.Services.AddScoped<IServiceHelper, ServiceHelper>();
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
+builder.Services.AddScoped<IPhotoService, PhotoService>();
 
 var secretKey = builder.Configuration.GetSection("JWT:Key").Value;
 var key = new SymmetricSecurityKey(Encoding.UTF8
@@ -44,6 +50,8 @@ builder.Services.AddAuthorization(options =>
 {
     options.AddPolicy("RequireAdminRole", policy => policy.RequireRole("Admin"));
 });
+
+
 
 var app = builder.Build();
 // Configure the HTTP request pipeline.

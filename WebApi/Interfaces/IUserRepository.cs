@@ -8,5 +8,9 @@ namespace WebApi.Interfaces
         Task<User> Authenticate(string email, string password);
         void Register(string email, string password);
         Task<bool> UserAlreadyExists(string email);
+        Task<IEnumerable<User>> GetAllAsync();
+        Task<User> GetByUserNameAsync(string email);
+        Task<User> GetByIdAsync(int id);
+
     }
 }
