@@ -29,8 +29,7 @@ export class UserLoginComponent implements OnInit {
           const user = response as UserForLogin
           console.log(response);
           if (user) {
-              localStorage.setItem('token', user.token);
-              localStorage.setItem('email', user.email);
+              localStorage.setItem('user', JSON.stringify(user));
               this.alertify.success('Login Successful');
               this.router.navigate(['/']);
           }

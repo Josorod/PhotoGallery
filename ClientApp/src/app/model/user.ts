@@ -8,3 +8,4 @@ export interface UserForLogin {
     password: string;
     token:string;
 }
+

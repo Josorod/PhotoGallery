@@ -18,28 +18,45 @@
           <a class="nav-link active" type="button" aria-current="page" routerLink="/">Home</a>
         </li>
       </ul>
-    <form class="d-flex">
-        <a class="btn btn-primary ms-auto" routerLink="user/login" routerLinkActive="active" >Login</a>
-        <a type="button" class="btn btn-info ms-auto" routerLink="user/register" routerLinkActive="active">Register</a>
-        <!-- <button *ngIf="userLogged()" type="button" class="btn btn-light" (click)="onLogout()">Logout</button> -->
-        <!-- <div class="dropdown mr-5" style="text-decoration: none; margin-right: 20px;margin-top: 8px;" dropdown>
-          <a href="#" class="dropdown-toggle text-dark" style="text-decoration: none;" dropdownToggle (click)="false">
-            
-          </a>
-          <div class="dropdown-menu" *dropdownMenu>
-            <a href="#" class="dropdown-item">
-              <i class="bi bi-person-circle" style="font-style: normal;">  Profile</i>
-            </a>
-            <a href="#" class="dropdown-item" >
-              <i class="bi bi-key" style="font-style: normal;">  Change password</i>
-            </a>
-            <a class="dropdown-item">
-              <i class="bi bi-box-arrow-left" style="font-style: normal;cursor: pointer;">  Logout</i>
-            </a>
+      <form class="d-flex">
+        <!-- <a class="btn btn-primary ms-auto" routerLink="user/login" routerLinkActive="active" >Login</a>
+        <a type="button" class="btn btn-info ms-auto" routerLink="user/register" routerLinkActive="active">Register</a> -->
+        
+        <div>
+          <div class="nav navbar-nav">
+            <li *ngIf="!loggedin()" class="nav-item">
+              <a class="nav-link"
+              routerLink="user/register"
+              routerLinkActive="active"
+              >Register</a>
+            </li>
+            <li *ngIf="!loggedin()" class="nav-item">
+              <a class="nav-link"
+              routerLink="user/login"
+              routerLinkActive="active"
+              >Login</a>
+            </li>
+            <!-- <li *ngIf="loggedin()" class="nav-item">
+              <a class="nav-link" (click)="onLogout()"
+              >Logout</a>
+            </li> -->
+            <div *ngIf="loggedin()" class="dropdown mr-5" dropdown>
+              <a href="#" class="dropdown-toggle text-dark" dropdownToggle (click)="false" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  Welcome {{loggedinUser}}
+              </a>
+              <!-- <div class="dropdown-menu" *dropdownMenu>
+                  <a (click)='onLogout()' class="dropdown-item">
+                    <i class="fas fa-sign-out-alt"></i> Logout</a>
+              </div> -->
+              <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                <a class="dropdown-item" href="#" (click)="onLogout()">
+                  <i class="fas fa-sign-out-alt"></i> Logout
+                </a>
+              </div>
+            </div>
+
           </div>
-
-        </div> -->
-
+        </div>
       </form>
     </div>
   </div>

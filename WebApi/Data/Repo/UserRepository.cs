@@ -38,7 +38,8 @@ namespace WebApi.Data.Repo
             return await dc.Users.SingleOrDefaultAsync(u => u.Email == email);
         }
 
- 
+
+
         public void Register(string email, string password)
         {
 

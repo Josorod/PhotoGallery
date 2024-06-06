@@ -1,30 +1,37 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
+using System.ComponentModel.DataAnnotations;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 using WebApi.Dtos;
 using WebApi.Interfaces;
 using WebApi.Models;
+using WebApi.Services;
 
 namespace WebApi.Controllers
 {
-    [Route("api/[controller]")]
+    
+
     [ApiController]
     public class UserController : ControllerBase
     {
         private readonly IUnitOfWork uow;
+        IMapper mapper;
         private readonly IConfiguration configuration;
-        public UserController(IUnitOfWork uow, IConfiguration configuration)
+        public UserController(IUnitOfWork uow, IConfiguration configuration, IMapper mapper)
         {
+            this.mapper = mapper;
             this.uow = uow;
             this.configuration = configuration; 
 
         }
 
-        [HttpPost("login")]
+        [HttpPost]
+        [Route("api/user/login")]
         public async Task<IActionResult> Login(LoginReqDto loginReq)
         {
             var user = await uow.UserRepository.Authenticate(loginReq.Email, loginReq.Password);
@@ -44,7 +51,8 @@ namespace WebApi.Controllers
             return Ok(loginRes);
         }
 
-        [HttpPost("register")]
+        [HttpPost]
+        [Route("api/user/register")]
         public async Task<IActionResult> Register(LoginReqDto loginReq)
         {
             ApiError apiError = new ApiError();
@@ -68,6 +76,32 @@ namespace WebApi.Controllers
             return StatusCode(201);
         }
 
+        [HttpGet]
+        [Route("api/users")]
+        public async Task<ActionResult<IEnumerable<User>>> GetUsers()
+        {
+            var userDTOs = await uow.UserRepository.GetAllAsync();
+
+            return Ok(mapper.Map<IEnumerable<User>>(userDTOs));
+        }
+
+        [HttpGet]
+        [Route("api/users/{userId}")]
+        public async Task<ActionResult<User>> GetUser([FromRoute] int userId)
+        {
+            var userDTO = await uow.UserRepository.GetByIdAsync(userId);
+
+            return Ok(mapper.Map<User>(userDTO));
+        }
+
+        [HttpGet]
+        [Route("api/users/by-user-name/{userName}")]
+        public async Task<ActionResult<User>> GetUserByUserName([FromRoute][Required] string userName)
+        {
+            var userDTO = await uow.UserRepository.GetByUserNameAsync(userName);
+
+            return Ok(mapper.Map<User>(userDTO));
+        }
 
 
         private string CreateJWT(User user)
