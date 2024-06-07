@@ -10,7 +10,7 @@ using WebApi.Models.Out;
 
 namespace WebApi.Controllers
 {
-    [Authorize]
+    //[Authorize]
     [ApiController]
     public class PhotoController : ControllerBase
     {

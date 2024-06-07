@@ -26,6 +26,7 @@ builder.Services.AddAutoMapper(typeof(DtoProfile));
 builder.Services.AddScoped<IServiceHelper, ServiceHelper>();
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 builder.Services.AddScoped<IPhotoService, PhotoService>();
+builder.Services.AddScoped<IAlbumService, AlbumService>();
 
 var secretKey = builder.Configuration.GetSection("JWT:Key").Value;
 var key = new SymmetricSecurityKey(Encoding.UTF8

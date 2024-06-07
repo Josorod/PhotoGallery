@@ -1,0 +1,48 @@
+<div class="container mt-5">
+    <h2 class="text-center">Album Manager</h2>
+    <div *ngIf="error" class="alert alert-danger">{{ error }}</div>
+    <form [formGroup]="albumForm" (ngSubmit)="onSubmit()">
+        <div class="form-group">
+            <label for="name">Name</label>
+            <input type="text" id="name" formControlName="name" class="form-control" [ngClass]="{ 'is-invalid': submitted && f['name'].errors }">
+            <div *ngIf="submitted && f['name'].errors" class="invalid-feedback">
+              <div *ngIf="f['name'].errors['required']">Name is required</div>
+              <div *ngIf="f['name'].errors['maxlength']">Max length is 50 characters</div>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="description">Description</label>
+            <input type="text" id="description" formControlName="description" class="form-control" [ngClass]="{ 'is-invalid': submitted && f['description'].errors }">
+            <div *ngIf="submitted && f['description'].errors" class="invalid-feedback">
+              <div *ngIf="f['description'].errors['maxlength']">Max length is 200 characters</div>
+            </div>
+          </div>
+          <button type="submit" class="btn btn-primary mt-3">Submit</button>
+          
+      <button type="button" class="btn btn-secondary mt-3 ml-2" (click)="resetForm()">Cancel</button>
+    </form>
+  
+    <hr>
+  
+    <h3 class="text-center">Albums</h3>
+    <table class="table table-bordered mt-3">
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Description</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let album of albums">
+          <td>{{ album.name }}</td>
+          <td>{{ album.description }}</td>
+          <td>
+            <button class="btn btn-warning btn-sm" (click)="selectAlbum(album)">Edit</button>
+            <button class="btn btn-danger btn-sm" (click)="deleteAlbum(album.id)">Delete</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  

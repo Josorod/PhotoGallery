@@ -12,7 +12,7 @@ using System.Security.Claims;
 namespace WebApi.Controllers
 {
     [ApiController]
-    [Authorize]
+   // [Authorize]
     public class AlbumController : ControllerBase
     {
         IMapper mapper;
